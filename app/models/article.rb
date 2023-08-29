@@ -66,22 +66,25 @@ class Article < ApplicationRecord
 
   def build_body(controller)
     result = ''
-
+  
     article_blocks.each do |article_block|
-      result << if article_block.sentence?
-                  sentence = article_block.blockable
-                  sentence.body
-                elsif article_block.medium?
-                  medium = ActiveDecorator::Decorator.instance.decorate(article_block.blockable)
-                  controller.render_to_string("shared/_media_#{medium.media_type}", locals: { medium: medium }, layout: false)
-                elsif article_block.embed?
-                  embed = ActiveDecorator::Decorator.instance.decorate(article_block.blockable)
-                  controller.render_to_string("shared/_embed_#{embed.embed_type}", locals: { embed: embed }, layout: false)
-                end
+      block_content = if article_block.sentence?
+                        sentence = article_block.blockable
+                        sentence&.body  # &. を使用してnilの場合はnilを返す
+                      elsif article_block.medium?
+                        medium = ActiveDecorator::Decorator.instance.decorate(article_block.blockable)
+                        controller.render_to_string("shared/_media_#{medium.media_type}", locals: { medium: medium }, layout: false)
+                      elsif article_block.embed?
+                        embed = ActiveDecorator::Decorator.instance.decorate(article_block.blockable)
+                        controller.render_to_string("shared/_embed_#{embed.embed_type}", locals: { embed: embed }, layout: false)
+                      end
+      
+      result << block_content.to_s  # to_s を使用してnilの場合は空文字列に変換
     end
-
+  
     result
   end
+  
 
   def next_article
     @next_article ||= Article.viewable.order(published_at: :asc).find_by('published_at > ?', published_at)
