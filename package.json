@@ -1,7 +1,9 @@
 {
   "name": "start-dash",
   "version": "1.0.0",
-  "engines" : { "node" : ">=12.14.0" },
+  "engines": {
+    "node": ">=12.14.0"
+  },
   "scripts": {
     "start": "./bin/webpack-dev-server",
     "build": "./bin/webpack",
@@ -45,7 +47,7 @@
     "file-loader": "^0.11.2",
     "glob": "^7.1.2",
     "js-yaml": "^3.9.1",
-    "node-sass": "^4.5.3",
+    "node-sass": "^4.14.1",
     "path-complete-extname": "^0.1.0",
     "postcss-loader": "^2.0.6",
     "postcss-smart-import": "^0.7.5",

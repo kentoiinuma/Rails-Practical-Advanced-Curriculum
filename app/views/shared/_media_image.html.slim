@@ -2,4 +2,7 @@ ruby:
   medium = local_assigns[:medium]
 
 .media-image
-  = image_tag medium.image_url(:lg)
+  - if medium&.image_url(:lg).present?
+    = image_tag medium.image_url(:lg)
+  - else
+    = "画像がありません"
