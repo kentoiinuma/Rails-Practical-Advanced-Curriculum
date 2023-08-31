@@ -35,7 +35,7 @@ class Admin::ArticlesController < ApplicationController
       flash[:notice] = '更新しました'
       redirect_to edit_admin_article_path(@article.uuid)
     else
-      puts "Update Failed: #{@article.errors.full_messages.join(', ')}"
+      Rails.logger.info "Update Failed: #{@article.errors.full_messages.join(', ')}"
       render :edit
     end
   end
