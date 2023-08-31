@@ -4,8 +4,7 @@ class Admin::Articles::PublishesController < ApplicationController
   before_action :set_article
 
   def update
-    @article.published_at = Time.current unless @article.published_at?
-    @article.state = :published
+    update_status_and_published_at
 
     if @article.valid?
       Article.transaction do
@@ -13,13 +12,10 @@ class Admin::Articles::PublishesController < ApplicationController
         @article.save!
       end
 
-      flash[:notice] = '記事を公開しました'
-
+      flash[:notice] = @article.state == 'publish_wait' ? '記事を公開待ちにしました' : '記事を公開しました'
       redirect_to edit_admin_article_path(@article.uuid)
     else
       flash.now[:alert] = 'エラーがあります。確認してください。'
-
-      @article.state = @article.state_was if @article.state_changed?
       render 'admin/articles/edit'
     end
   end
@@ -28,5 +24,18 @@ class Admin::Articles::PublishesController < ApplicationController
 
   def set_article
     @article = Article.find_by!(uuid: params[:article_uuid])
+  end
+
+  def update_status_and_published_at
+    if @article.published_at.nil?
+      flash.now[:alert] = '公開日時が設定されていません。'
+      render('admin/articles/edit') && return # ここで return を追加
+    end
+
+    @article.state = if @article.published_at.to_datetime > Time.current
+                       'publish_wait' # 文字列で設定
+                     else
+                       'published' # 文字列で設定
+                     end
   end
 end

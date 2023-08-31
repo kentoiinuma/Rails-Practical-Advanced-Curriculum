@@ -5,7 +5,6 @@ class Admin::ArticlesController < ApplicationController
 
   def index
     authorize(Article)
-
     @search_articles_form = SearchArticlesForm.new(search_params)
     @articles = @search_articles_form.search.order(id: :desc).page(params[:page]).per(25)
   end
@@ -16,10 +15,8 @@ class Admin::ArticlesController < ApplicationController
 
   def create
     authorize(Article)
-
     @article = Article.new(article_params)
-    @article.state = :draft
-
+    @article.state = :draft # 初期状態はdraft
     if @article.save
       redirect_to edit_admin_article_path(@article.uuid)
     else
@@ -38,15 +35,14 @@ class Admin::ArticlesController < ApplicationController
       flash[:notice] = '更新しました'
       redirect_to edit_admin_article_path(@article.uuid)
     else
+      puts "Update Failed: #{@article.errors.full_messages.join(', ')}"
       render :edit
     end
   end
 
   def destroy
     authorize(@article)
-
     @article.destroy
-
     redirect_to admin_articles_path
   end
 
@@ -54,7 +50,7 @@ class Admin::ArticlesController < ApplicationController
 
   def article_params
     params.require(:article).permit(
-      :title, :description, :slug, :state, :published_at, :eye_catch, :category_id, :author_id, tag_ids: []
+      :title, :description, :slug, :published_at, :eye_catch, :category_id, :author_id, tag_ids: []
     )
   end
 
