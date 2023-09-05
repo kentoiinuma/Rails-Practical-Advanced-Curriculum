@@ -50,12 +50,12 @@ class Admin::ArticlesController < ApplicationController
 
   def article_params
     params.require(:article).permit(
-      :title, :description, :slug, :published_at, :eye_catch, :category_id, :author_id, tag_ids: []
+      :title, :description, :slug, :published_at, :eye_catch, :category_id, :author_id, tag_id: []
     )
   end
 
   def search_params
-    params[:q]&.permit(:title, :category_id)
+    params[:q]&.permit(:title, :category_id, :author_id, :tag_id, :body)
   end
 
   def set_article

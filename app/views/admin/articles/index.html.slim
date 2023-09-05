@@ -7,56 +7,46 @@
   .box-header
     h3.box-title 記事一覧
     .box-tools
-      .ul.list-inline
+      ul.list-inline
         li
           = form_with model: @search_articles_form, scope: :q, url: admin_articles_path, method: :get, html: { class: 'form-inline' } do |f|
-            => f.select :category_id, Category.pluck(:name, :id) , { include_blank: true }, class: 'form-control'
+            = f.select :category_id, Category.pluck(:name, :id), { include_blank: 'カテゴリ' }, class: 'form-control', name: 'q[category_id]'
+            = f.select :author_id, Author.pluck(:name, :id), { include_blank: '著者' }, class: 'form-control', name: 'q[author_id]'
+            = f.select :tag_id, Tag.pluck(:name, :id), { include_blank: 'タグ' }, class: 'form-control', name: 'q[tag_id]'
+            = f.search_field :body, placeholder: '記事内容', class: 'form-control', name: 'q[body]'
             .input-group
-              = f.search_field :title, class: 'form-control'
+              = f.search_field :title, placeholder: 'タイトル', class: 'form-control', name: 'q[title]'
               span.input-group-btn
-                = f.submit '検索', class: %w[btn btn-default btn-flat]
-        - if policy(Article).new?
-          li
+                = f.submit '検索', class: 'btn btn-default btn-flat'
+        li
           .pull-right
-            = link_to '新規作成', new_admin_article_path, class: %w[btn btn-primary]
-
+            = link_to '新規作成', new_admin_article_path, class: 'btn btn-primary'
   .box-body.table-responsive.no-padding
     table.table.table-hover
       thead
         tr
-          th = Article.human_attribute_name(:id)
-          th = Article.human_attribute_name(:title)
-          th = Article.human_attribute_name(:category)
-          th = Article.human_attribute_name(:tag)
-          th = Article.human_attribute_name(:author)
-          th = Article.human_attribute_name(:published_at)
+          th ID
+          th タイトル
+          th カテゴリー
+          th タグ
+          th 著者
+          th 公開日
       tbody
         - @articles.each do |article|
           tr
             td = article.id
             td
-              div = article.title
-              div
-                - if policy(article).edit?
-                  => link_to edit_admin_article_path(article.uuid), class: %w[btn btn-default btn-xs btn-flat]
-                    i.fa.fa-edit
-                    '
-                    | 編集
-                => link_to admin_article_preview_path(article.uuid), class: %w[btn btn-default btn-xs btn-flat], target: '_blank'
-                  i.fa.fa-eye
-                  '
-                  | プレビュー
-                - if policy(article).destroy?
-                  => link_to admin_article_path(article.uuid), class: %w[btn btn-link btn-xs btn-flat], method: :delete, data: { confirm: "#{article.title}を削除してもよろしいですか？" } do
-                    i.fa.fa-trash
-                    '
-                    | 削除
+              = article.title
+              br
+              - if policy(article).edit?
+                = link_to '編集', edit_admin_article_path(article.uuid), class: 'btn btn-default btn-xs btn-flat'
+              = link_to 'プレビュー', admin_article_preview_path(article.uuid), class: 'btn btn-default btn-xs btn-flat', target: '_blank'
+              - if policy(article).destroy?
+                = link_to '削除', admin_article_path(article.uuid), class: 'btn btn-link btn-xs btn-flat', method: :delete, data: { confirm: "この記事（#{article.title}）を削除してもよろしいですか？" }
             td = article.category_name
             td
               - article.tags.each do |tag|
-                span.label.label-info
-                  = tag.name
-                '
+                span.label.label-info = tag.name
             td = article.author_name
             td
               div
@@ -64,7 +54,11 @@
                   span.label.label-success = article.state_i18n
                 - else
                   span.label.label-warning = article.state_i18n
-              div = article.published_at? ? l(article.published_at) : '-'
+              div
+                - if article.published_at?
+                  = l(article.published_at, format: :default)
+                - else
+                  | -
   .box-footer
     .pull-right
       = paginate(@articles)

@@ -5,6 +5,7 @@ class Admin::Articles::PublishesController < ApplicationController
 
   def update
     update_status_and_published_at
+    return if performed? # すでに render または redirect が行われていたら、処理を終了
 
     if @article.valid?
       Article.transaction do
@@ -16,7 +17,7 @@ class Admin::Articles::PublishesController < ApplicationController
       redirect_to edit_admin_article_path(@article.uuid)
     else
       flash.now[:alert] = 'エラーがあります。確認してください。'
-      render 'admin/articles/edit'
+      render 'admin/articles/edit' # ここでエラーが発生している可能性
     end
   end
 

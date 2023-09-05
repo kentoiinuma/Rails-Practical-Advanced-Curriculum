@@ -50,7 +50,7 @@
           i.fa.fa-eye
           '
           | プレビュー
-        - if @article.published?
+        - if @article.category_slug.present? && @article.slug.present?
           = link_to article_path(@article.category_slug, @article.slug), class: %w[btn btn-default btn-block btn-flat], target: '_blank' do
             i.fa.fa-globe
             '
