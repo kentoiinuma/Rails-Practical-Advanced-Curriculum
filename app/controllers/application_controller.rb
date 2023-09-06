@@ -9,6 +9,9 @@ class ApplicationController < ActionController::Base
   before_action :current_site
   before_action :init_components
 
+  # Punditの権限エラーをハンドリング
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+
   def current_site
     @current_site ||= Site.first
   end
@@ -54,5 +57,10 @@ class ApplicationController < ActionController::Base
       new_arrivals: true,
       categories: true
     }
+  end
+
+  # 権限がない場合に403エラーページを表示
+  def user_not_authorized
+    render file: 'public/403.html', status: :forbidden
   end
 end

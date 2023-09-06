@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'AdminArticles', type: :system do
+RSpec.describe 'AdminTags', type: :system do
   let(:admin) { create :user, :admin }
   before do
     login(admin)
