@@ -50,7 +50,8 @@ class Admin::ArticlesController < ApplicationController
 
   def article_params
     params.require(:article).permit(
-      :title, :description, :slug, :published_at, :eye_catch, :category_id, :author_id, tag_id: []
+      :title, :description, :slug, :published_at, :eye_catch, :eyecatch_width, :eyecatch_alignment, # eyecatch_alignmentを追加
+      :category_id, :author_id, tag_id: []
     )
   end
 

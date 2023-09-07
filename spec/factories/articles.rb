@@ -2,19 +2,21 @@
 #
 # Table name: articles
 #
-#  id           :bigint           not null, primary key
-#  category_id  :bigint
-#  author_id    :bigint
-#  uuid         :string(255)
-#  slug         :string(255)
-#  title        :string(255)
-#  description  :text(65535)
-#  body         :text(65535)
-#  state        :integer          default("draft"), not null
-#  published_at :datetime
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  deleted_at   :datetime
+#  id             :bigint           not null, primary key
+#  category_id    :bigint
+#  author_id      :bigint
+#  uuid           :string(255)
+#  slug           :string(255)
+#  title          :string(255)
+#  description    :text(65535)
+#  body           :text(65535)
+#  state          :integer          default("draft"), not null
+#  published_at   :datetime
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  deleted_at     :datetime
+#  eyecatch_align :integer          default(0), not null
+#  eyecatch_width :integer
 #
 # Indexes
 #

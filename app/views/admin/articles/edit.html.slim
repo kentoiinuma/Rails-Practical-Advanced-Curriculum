@@ -30,6 +30,8 @@
           = f.input :title
           = f.input :slug
           = f.input :eye_catch, as: :file
+          = f.input :eyecatch_width, input_html: { placeholder: '100' }
+          = f.input :eyecatch_alignment, as: :radio_buttons, collection: ['左寄せ', '中央', '右寄せ']
           - if @article.eye_catch.attached?
             = image_tag @article.eye_catch_url(:thumb), class: 'img-thumbnail'
             br

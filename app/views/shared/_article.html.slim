@@ -6,8 +6,11 @@
       = l(article.published_at? ? article.published_at.to_date : Time.current.to_date, format: '%Y年%-m月%-d日')
 
   - if article.eye_catch.attached?
-    section.eye_catch
-      = image_tag article.eye_catch_url(:lg), class: 'img-fluid'
+    section.eye_catch class=(@eyecatch_alignment_class if @eyecatch_alignment_class)
+      - style = "max-width: #{article.eyecatch_width}px;" if article.eyecatch_width
+      div style=style
+        = image_tag article.eye_catch_url(:lg), class: 'img-fluid'
+
 
   - if article.category.present?
     section.category
@@ -18,8 +21,8 @@
     section.tags
       h4 Tags
       ul.list-inline
-      - article.tags.each do |tag|
-        li.list-inline-item = link_to tag.name, tag_path(tag.slug)
+        - article.tags.each do |tag|
+          li.list-inline-item = link_to tag.name, tag_path(tag.slug)
 
   article.article
     == article.body
