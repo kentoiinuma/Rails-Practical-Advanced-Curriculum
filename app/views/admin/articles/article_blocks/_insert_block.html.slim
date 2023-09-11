@@ -35,16 +35,20 @@
           | 画像
 
         = link_to admin_article_article_blocks_path(article.uuid), \
-          class: %w[btn btn-app btn-default js-insert-article-block], \
-          data: { \
-            remote: true, \
-            disable: true, \
-            method: :post, \
-            params: { article_block: { level: level, blockable_type: 'embed' } } \
+            class: %w[btn btn-app btn-default js-insert-article-block], \
+            data: { \
+                remote: true, \
+                disable: true, \
+                method: :post, \
+                params: { article_block: { level: level, blockable_type: 'embed' } } \
             } do
-          i.fa.fa-youtube-play
-          '
-          | 埋め込み
+            div
+                i.fa.fa-twitter
+                i.fa.fa-youtube-play
+            div
+                | 埋め込み
+
+
 
       .modal-footer
         button.btn.btn-default[data-dismiss="modal"] 閉じる

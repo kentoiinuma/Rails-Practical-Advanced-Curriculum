@@ -13,6 +13,7 @@ class Admin::Articles::ArticleBlocksController < ApplicationController
   def create
     ArticleBlock.transaction do
       @article_block = @article.article_blocks.new(article_block_params)
+      identifier = params.dig(:embed, :identifier)
 
       if @article_block.invalid?(:insert)
         return head :bad_request
@@ -24,7 +25,15 @@ class Admin::Articles::ArticleBlocksController < ApplicationController
         return head :bad_request
       end
 
-      @article_block.create_blockable!(blockable_type)
+      # YouTubeまたはTwitterのURLをIDに変換
+      case blockable_type
+      when 'YouTube'
+        identifier = identifier.split('/').last # URLの最後の部分を取得
+      when 'Twitter'
+        identifier = identifier.split('/').last # URLの最後の部分を取得
+      end
+
+      @article_block.create_blockable!(blockable_type, identifier)
       @article_block.insert_and_save!
     end
 
@@ -79,7 +88,7 @@ class Admin::Articles::ArticleBlocksController < ApplicationController
   private
 
   def article_block_params
-    params.require(:article_block).permit(:level)
+    params.require(:article_block).permit(:level, :blockable_type)
   end
 
   def blockable_params

@@ -1,5 +1,9 @@
 ja:
   enums:
+    embed:
+      embed_types:
+        youtube: 'YouTube'
+        twitter: 'Twitter'
     user:
       role:
         writer: 'ライター'
@@ -14,10 +18,7 @@ ja:
       state:
         draft: '下書き'
         published: '公開'
-        publish_wait: '公開待ち'  # この行を追加
+        publish_wait: '公開待ち'
     medium:
       media_type:
         image: '画像'
-    embed:
-      embed_type:
-        youtube: 'YouTube'

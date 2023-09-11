@@ -1,4 +1,6 @@
 class Article < ApplicationRecord
+  attr_accessor :eyecatch_alignment_class
+
   belongs_to :category
   belongs_to :author
 

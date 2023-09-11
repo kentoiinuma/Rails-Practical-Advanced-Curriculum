@@ -1,22 +1,3 @@
-# == Schema Information
-#
-# Table name: article_blocks
-#
-#  id             :bigint           not null, primary key
-#  article_id     :bigint
-#  blockable_type :string(255)
-#  blockable_id   :bigint
-#  level          :integer          default(0), not null
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
-#
-# Indexes
-#
-#  index_article_blocks_on_article_id                       (article_id)
-#  index_article_blocks_on_blockable_type_and_blockable_id  (blockable_type,blockable_id)
-#  index_article_blocks_on_level                            (level)
-#
-
 class ArticleBlock < ApplicationRecord
   belongs_to :article
   belongs_to :blockable, polymorphic: true, dependent: :destroy
@@ -63,16 +44,14 @@ class ArticleBlock < ApplicationRecord
     save!
   end
 
-  def create_blockable!(type)
+  def create_blockable!(type, identifier = nil)
     case type.to_s.classify
     when 'Sentence'
       self.blockable = Sentence.create!
-
     when 'Medium'
       self.blockable = Medium.create!
-
     when 'Embed'
-      self.blockable = Embed.create!
+      self.blockable = Embed.create!(identifier: identifier) # この行を修正
     else
       raise "ブロックタイプが不正です (#{type})"
     end

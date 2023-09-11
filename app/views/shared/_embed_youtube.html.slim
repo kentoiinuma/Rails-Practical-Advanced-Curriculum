@@ -1,8 +1,6 @@
-ruby:
-  embed = local_assigns[:embed]
-  width = local_assigns[:width] || 853
-  height = local_assigns[:height] || 480
+- width = local_assigns[:width] || 853  # デフォルト値を853に設定
+- height = local_assigns[:height] || 480 # デフォルト値を480に設定
 
 .embed-youtube
-  = content_tag 'iframe', nil, width: width, height: height, src: "https://www.youtube.com/embed/#{embed.identifier}", \
-    frameborder: 0, gesture: 'media', allow: 'encrypted-media', allowfullscreen: true
+  - youtube_url = "https://www.youtube.com/embed/#{embed.split_id_from_youtube_url}"
+  = content_tag 'iframe', nil, width: width, height: height, src: youtube_url, frameborder: 0, gesture: 'media', allow: 'encrypted-media', allowfullscreen: true

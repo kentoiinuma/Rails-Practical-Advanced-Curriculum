@@ -1,6 +1,9 @@
 section.box
   .box-header
-    = article_block.box_header_icon
+    - if article_block.embed? && article_block.blockable&.youtube?
+      i.fa.fa-youtube
+    - elsif article_block.embed? && article_block.blockable&.twitter?
+      i.fa.fa-twitter
     h3.box-title = article_block.box_title
     .box-tools.pull-right
       - if article_block != article_blocks.first

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_09_06_202542) do
+ActiveRecord::Schema.define(version: 2023_09_08_021401) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -78,7 +78,7 @@ ActiveRecord::Schema.define(version: 2023_09_06_202542) do
   end
 
   create_table "embeds", force: :cascade do |t|
-    t.integer "embed_type", default: 0, null: false
+    t.integer "embed_type", limit: 2, default: 0, null: false
     t.string "identifier"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
