@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_09_08_021401) do
+ActiveRecord::Schema.define(version: 2023_09_12_135735) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -69,6 +69,7 @@ ActiveRecord::Schema.define(version: 2023_09_08_021401) do
     t.datetime "deleted_at"
     t.integer "eyecatch_width"
     t.string "eyecatch_alignment"
+    t.json "main_images"
     t.index ["author_id"], name: "index_articles_on_author_id"
     t.index ["category_id"], name: "index_articles_on_category_id"
     t.index ["deleted_at"], name: "index_articles_on_deleted_at"
@@ -117,6 +118,7 @@ ActiveRecord::Schema.define(version: 2023_09_08_021401) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.json "main_images"
   end
 
   create_table "taxonomies", force: :cascade do |t|

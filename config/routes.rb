@@ -19,7 +19,9 @@ Rails.application.routes.draw do
     resources :invitations, param: :uuid, only: %i[index new create destroy] do
       resource :register, only: %i[show create]
     end
-    resource :site, only: %i[edit update]
+    resource :site, only: %i[edit update] do
+      delete 'remove_image/:id', to: 'sites#remove_image', as: :remove_image
+    end
     resources :categories, only: %i[index create edit update destroy]
     resources :tags, only: %i[index create edit update destroy]
     resources :authors, only: %i[index create edit update destroy]

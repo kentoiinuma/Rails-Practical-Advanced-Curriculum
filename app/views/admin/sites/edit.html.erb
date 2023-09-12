@@ -1,0 +1,54 @@
+<% content_for 'content-header' do %>
+  サイトの設定
+<% end %>
+
+<% breadcrumb :edit_admin_site %>
+
+<div class="box box-primary">
+  <%= simple_form_for [:admin, @site], url: admin_site_path do |f| %>
+    <div class="box-body">
+      <%= f.error_notification %>
+      <%= f.input :name %>
+      <%= f.input :subtitle %>
+      <%= f.input :description, as: :text %>
+      <%= f.input :favicon, as: :file, hint: 'PNG (32x32)' %>
+
+      <% if @site.favicon.attached? %>
+        <%= image_tag @site.favicon_url('32x32') %>
+        <br>
+        <%= link_to '削除', remove_image_admin_site_path(@site.favicon.id), method: :delete %>
+      <% end %>
+
+      <%= f.input :og_image, as: :file, hint: 'JPEG/PNG (1200x630)' %>
+
+      <% if @site.og_image.attached? %>
+        <%= image_tag @site.og_image_url(:ogp), class: 'img-responsive' %>
+        <br>
+        <%= link_to '削除', remove_image_admin_site_path(@site.og_image.id), method: :delete %>
+      <% end %>
+
+      <%= f.input :main_images, as: :file, input_html: { multiple: true }, hint: 'JPEG/PNG' %>
+
+      <% if @site.main_images.attached? %>
+        <div class="swiper-container">
+          <div class="swiper-wrapper">
+            <% @site.main_images.each do |image| %>
+              <div class="swiper-slide">
+                <%= image_tag image, class: 'main_image', size: "300x200" %>  <!-- ここでサイズを設定 -->
+                <br>
+                <%= link_to '削除', remove_image_admin_site_path(image.id), method: :delete %>
+              </div>
+            <% end %>
+          </div>
+          <div class="swiper-pagination"></div>
+          <div class="swiper-button-next"></div>
+          <div class="swiper-button-prev"></div>
+        </div>
+      <% end %>
+    </div>
+    <div class="box-footer">
+      <%= f.button :submit, '保存', class: %w[btn btn-primary] %>
+    </div>
+  <% end %>
+</div>
+

@@ -13,6 +13,7 @@
 class Site < ApplicationRecord
   has_one_attached :og_image
   has_one_attached :favicon
+  has_many_attached :main_images
 
   validates :name, presence: true, length: { maximum: 100 }
   validates :subtitle, length: { maximum: 100 }

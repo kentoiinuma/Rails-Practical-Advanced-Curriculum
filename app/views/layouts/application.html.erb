@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%= render 'layouts/meta_tags' %>
+    <%= stylesheet_link_tag 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css' %>
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+    <%= stylesheet_link_tag 'https://unpkg.com/swiper/swiper-bundle.min.css' %> <!-- Swiper CSSを追加 -->
+    <%= yield 'stylesheets' %>
+    <%= javascript_include_tag 'https://code.jquery.com/jquery-3.2.1.slim.min.js' %>
+    <%= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js' %>
+    <%= javascript_include_tag 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js' %>
+    <%= javascript_include_tag 'https://unpkg.com/swiper/swiper-bundle.min.js' %> <!-- Swiper JSを追加 -->
+    <%= javascript_include_tag 'application' %>
+  </head>
+  <body>
+    <%= render 'layouts/header' %>
+    <section class="container page-content">
+      <main>
+        <%= yield %>
+        <div class="swiper-container">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">Slide 1</div>
+            <div class="swiper-slide">Slide 2</div>
+            <div class="swiper-slide">Slide 3</div>
+          </div>
+          <div class="swiper-pagination"></div> <!-- ページネーションのためのdiv -->
+          <div class="swiper-button-next"></div> <!-- 次へボタン -->
+          <div class="swiper-button-prev"></div> <!-- 前へボタン -->
+        </div>
+        <% if new_arrivals? %>
+          <div class="section container new_arrivals my-5">
+            <%= render 'shared/new_arrival_articles', articles: Article.new_arrivals.limit(3) %>
+          </div>
+        <% end %>
+        <% if categories? %>
+          <div class="section container categories my-5">
+            <%= render 'shared/categories', categories: Category.all %>
+          </div>
+        <% end %>
+      </main>
+    </section>
+  </body>
+</html>

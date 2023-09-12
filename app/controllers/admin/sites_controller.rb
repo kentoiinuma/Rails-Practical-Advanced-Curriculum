@@ -17,10 +17,16 @@ class Admin::SitesController < ApplicationController
     end
   end
 
+  def remove_image
+    image = ActiveStorage::Attachment.find(params[:id])
+    image.purge
+    redirect_to edit_admin_site_path, notice: 'Image was successfully removed.'
+  end
+
   private
 
   def site_params
-    params.require(:site).permit(:name, :subtitle, :description, :favicon, :og_image)
+    params.require(:site).permit(:name, :subtitle, :description, { main_images: [] }, :favicon, :og_image)
   end
 
   def set_site
