@@ -4,4 +4,4 @@ class Admin::MailerController < ApplicationController
     ArticleMailer.report_summary.deliver_now
     redirect_to admin_dashboard_path, notice: 'Summary mail sent.'
   end
-  end
+end
