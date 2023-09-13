@@ -32,6 +32,7 @@ Rails.application.routes.draw do
         patch :swap_level
       end
     end
+    get 'send_summary_mail', to: 'mailer#send_summary_mail'
   end
 
   get '/admin' => redirect('/admin/login/identifier')

@@ -1,0 +1,7 @@
+公開済の記事数: <%= @total_articles %>件
+昨日公開された記事数: <%= @yesterday_articles.count %>件
+<% if @yesterday_articles.count > 0 %>
+  タイトル: <%= @yesterday_titles %>
+<% else %>
+  <%= @yesterday_titles %>
+<% end %>
